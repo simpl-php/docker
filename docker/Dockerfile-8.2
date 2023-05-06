@@ -1,0 +1,56 @@
+FROM php:8.2-apache
+
+# Install required packages and PHP extensions
+RUN apt-get update && apt-get install -y \
+    msmtp \
+    curl \
+    nano \
+    dnsutils \
+    gnupg \
+    default-mysql-client \
+    ldap-utils \
+    libldap2-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    curl \
+    git \
+    unzip \
+    zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install ldap soap gd pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Setup our app directory
+RUN mkdir -p /src
+WORKDIR /src
+COPY . /src
+RUN rm -rf /var/www/html
+RUN ln -sf /src/public /var/www/html
+
+# Set server date/time
+RUN mv /etc/localtime /etc/localtime.backup && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
+
+# Install NPM
+RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
+RUN apt-get -y install nodejs
+
+RUN echo "\nListen 8082" >> /etc/apache2/ports.conf
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+EXPOSE 80
+EXPOSE 8082
+RUN a2enmod rewrite && service apache2 restart
+
+# Configure mail relay.
+COPY ./docker/mail.config /etc/msmtprc
+RUN chmod 600 /etc/msmtprc
+RUN chown www-data:www-data /etc/msmtprc
+
+# Install Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# Set the working directory
+WORKDIR /var/www/html

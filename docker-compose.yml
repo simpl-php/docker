@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  php74:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-7.4
+    ports:
+      - "8074:80"
+    hostname: php74
+    volumes:
+      - ./public:/var/www/html
+      - ./docker/web/:/var/www/html/docker
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/logs/apache:/var/log/apache2
+    depends_on:
+      - mariadb
+      - redis
+      - mailhog
+  php80:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-8.0
+    ports:
+      - "8080:80"
+    hostname: php80
+    volumes:
+      - ./public:/var/www/html
+      - ./docker/web/:/var/www/html/docker
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/logs/apache:/var/log/apache2
+    depends_on:
+      - mariadb
+      - redis
+      - mailhog
+  php81:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-8.1
+    ports:
+      - "8081:80"
+    hostname: php81
+    volumes:
+      - ./public:/var/www/html
+      - ./docker/web/:/var/www/html/docker
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/logs/apache:/var/log/apache2
+    depends_on:
+      - mariadb
+      - redis
+      - mailhog
+  php82:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-8.2
+    ports:
+      - "8082:80"
+    hostname: php82
+    volumes:
+      - ./public:/var/www/html
+      - ./docker/web/:/var/www/html/docker
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/logs/apache:/var/log/apache2
+    depends_on:
+      - mariadb
+      - redis
+      - mailhog
+  mariadb:
+    image: mariadb
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3305:3306"
+    volumes:
+      - ./docker/mariadb:/var/lib/mysql
+      - ./docker/logs/mariadb:/var/log/mysql
+  redis:
+    image: redis
+    ports:
+      - "6279:6379"
+    volumes:
+      - ./docker/redis:/data
+      - ./docker/logs/redis:/var/log/redis
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    platform: linux/amd64
