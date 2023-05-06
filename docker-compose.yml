@@ -9,10 +9,12 @@ services:
       - "8074:80"
     hostname: php74
     volumes:
+      - .:/src
       - ./public:/var/www/html
       - ./docker/web/:/var/www/html/docker
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./docker/logs/apache:/var/log/apache2
+    working_dir: /src
     depends_on:
       - mariadb
       - redis
@@ -25,10 +27,12 @@ services:
       - "8080:80"
     hostname: php80
     volumes:
+      - .:/src
       - ./public:/var/www/html
       - ./docker/web/:/var/www/html/docker
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./docker/logs/apache:/var/log/apache2
+    working_dir: /src
     depends_on:
       - mariadb
       - redis
@@ -41,10 +45,12 @@ services:
       - "8081:80"
     hostname: php81
     volumes:
+      - .:/src
       - ./public:/var/www/html
       - ./docker/web/:/var/www/html/docker
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./docker/logs/apache:/var/log/apache2
+    working_dir: /src
     depends_on:
       - mariadb
       - redis
@@ -57,10 +63,12 @@ services:
       - "8082:80"
     hostname: php82
     volumes:
+      - .:/src
       - ./public:/var/www/html
       - ./docker/web/:/var/www/html/docker
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./docker/logs/apache:/var/log/apache2
+    working_dir: /src
     depends_on:
       - mariadb
       - redis
