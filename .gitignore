@@ -2,3 +2,4 @@
 /docker/mariadb/
 /docker/redis/
 /public/docker/
+.idea/
