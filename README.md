@@ -11,7 +11,7 @@ This repository provides a Docker-based development environment for php applicat
 
 1. Clone this repository or copy its contents to your project's root directory.
 2. Run `docker-compose up -d` to start the containers in detached mode.
-3. Access your application at <https://localhost:8082>.
+3. Access your application at <http://localhost:8082>.
 
 ## Services
 
@@ -22,10 +22,10 @@ This repository provides a Docker-based development environment for php applicat
 
 ## Useful URLs
 
-- PHP 7.4 application: <https://localhost:8074>
-- PHP 8.0 application: <https://localhost:8080>
-- PHP 8.1 application: <https://localhost:8081>
-- PHP 8.2 application: <https://localhost:8082>
+- PHP 7.4 application: <http://localhost:8074>
+- PHP 8.0 application: <http://localhost:8080>
+- PHP 8.1 application: <http://localhost:8081>
+- PHP 8.2 application: <http://localhost:8082>
 - MailHog web interface: <http://localhost:8025>
 
 ## Useful Commands
